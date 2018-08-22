@@ -2,6 +2,8 @@ import cv2
 import logging
 import os
 
+from equirec2perspec import EquirectangularConverted
+
 logger = logging
 
 
@@ -51,11 +53,18 @@ class ThumbnailsAssetPipeline(object):
             success, image = vidcap.read()
             try:
                 file_name = os.path.join(output_path, '{}_{}.png'.format(video_name, frame))
+                flat_file_name = os.path.join(output_path, '{}_{}_flat.png'.format(video_name, frame))
                 cv2.imwrite(file_name, image)
+                flat_image = self.get_undistorted_image(image)
+                cv2.imwrite(flat_file_name, flat_image)
                 results.append(file_name)
             except Exception as e:
                 logger.exception(e)
         return results
+
+    def get_undistorted_image(self, image):
+        converter = EquirectangularConverted(image)
+        return converter.get_perspective_img(90, 0, 0, 320, 320)
 
     def get_frames(self, frame_count, thumb_num):
         """
