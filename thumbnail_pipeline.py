@@ -58,13 +58,14 @@ class ThumbnailsAssetPipeline(object):
                 flat_image = self.get_undistorted_image(image)
                 cv2.imwrite(flat_file_name, flat_image)
                 results.append(file_name)
+                results.append(flat_file_name)
             except Exception as e:
                 logger.exception(e)
         return results
 
     def get_undistorted_image(self, image):
         converter = EquirectangularConverted(image)
-        return converter.get_perspective_img(90, 0, 0, 320, 320)
+        return converter.get_perspective_img(90, 0, 0, 640, 640)
 
     def get_frames(self, frame_count, thumb_num):
         """

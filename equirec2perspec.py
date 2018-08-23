@@ -37,11 +37,11 @@ class EquirectangularConverted(object):
         x_map = np.zeros([height, width], np.float32) + radius
         y_map = np.tile((np.arange(0, width) - c_x) * w_interval, [height, 1])
         z_map = -np.tile((np.arange(0, height) - c_y) * h_interval, [width, 1]).T
-        D = np.sqrt(x_map ** 2 + y_map ** 2 + z_map ** 2)
+        d = np.sqrt(x_map ** 2 + y_map ** 2 + z_map ** 2)
         xyz = np.zeros([height, width, 3], np.float)
-        xyz[:, :, 0] = (radius / D * x_map)[:, :]
-        xyz[:, :, 1] = (radius / D * y_map)[:, :]
-        xyz[:, :, 2] = (radius / D * z_map)[:, :]
+        xyz[:, :, 0] = (radius / d * x_map)[:, :]
+        xyz[:, :, 1] = (radius / d * y_map)[:, :]
+        xyz[:, :, 2] = (radius / d * z_map)[:, :]
 
         y_axis = np.array([0.0, 1.0, 0.0], np.float32)
         z_axis = np.array([0.0, 0.0, 1.0], np.float32)
